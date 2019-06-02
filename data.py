@@ -11,8 +11,7 @@ import operator
 import threading
 from processor import process_image
 from keras.utils import to_categorical
-
-DATA_FILE = 'data_file_mini.csv' # The original file is : 'data_file.csv'
+from main_config import DATA_FILE
 
 
 class threadsafe_iterator:

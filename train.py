@@ -6,9 +6,7 @@ from models import ResearchModels
 from data import DataSet
 import time
 import os.path
-
-MODEL = 'conv_3d'
-BATCH_SIZE = 2
+from main_config import MODEL, BATCH_SIZE
 
 def train(data_type, seq_length, model, saved_model=None,
           class_limit=None, image_shape=None,
