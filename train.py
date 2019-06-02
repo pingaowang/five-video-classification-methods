@@ -6,14 +6,14 @@ from models import ResearchModels
 from data import DataSet
 import time
 import os.path
-from main_config import MODEL, BATCH_SIZE, EXP_NAME
+from main_config import MODEL, BATCH_SIZE, EXP_NAME, SAVED_MODEL
 
 def train(data_type, seq_length, model, saved_model=None,
           class_limit=None, image_shape=None,
           load_to_memory=False, batch_size=32, nb_epoch=100):
     # Helper: Save the model.
     checkpointer = ModelCheckpoint(
-        filepath=os.path.join('data', 'checkpoints', EXP_NAME, model + '-' + data_type + \
+        filepath=os.path.join('data', 'checkpoints', EXP_NAME + '-' + model + '-' + data_type + \
             '.{epoch:03d}-{val_loss:.3f}.hdf5'),
         verbose=1,
         save_best_only=True)
@@ -86,7 +86,7 @@ def main():
     this file."""
     # model can be one of lstm, lrcn, mlp, conv_3d, c3d
     model = MODEL
-    saved_model = None  # None or weights file
+    saved_model = SAVED_MODEL  # None or weights file
     class_limit = None  # int, can be 1-101 or None
     seq_length = 40
     load_to_memory = False  # pre-load the sequences into memory
