@@ -7,6 +7,9 @@ from data import DataSet
 import time
 import os.path
 
+MODEL = 'conv_3d'
+BATCH_SIZE = 2
+
 def train(data_type, seq_length, model, saved_model=None,
           class_limit=None, image_shape=None,
           load_to_memory=False, batch_size=32, nb_epoch=100):
@@ -84,12 +87,12 @@ def main():
     """These are the main training settings. Set each before running
     this file."""
     # model can be one of lstm, lrcn, mlp, conv_3d, c3d
-    model = 'lstm'
+    model = MODEL
     saved_model = None  # None or weights file
     class_limit = None  # int, can be 1-101 or None
     seq_length = 40
     load_to_memory = False  # pre-load the sequences into memory
-    batch_size = 32
+    batch_size = BATCH_SIZE # The original batch_size = 32
     nb_epoch = 1000
 
     # Chose images or features and image shape based on network.
