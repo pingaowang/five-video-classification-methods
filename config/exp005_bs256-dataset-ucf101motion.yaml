@@ -1,6 +1,6 @@
 ##-- Experiment info config --##
 # experiment name. Keep it unique.
-exp_name: exp005_bs512-dataset-ucf101motion
+exp_name: exp005_bs256-dataset-ucf101motion
 
 
 ##-- Load saved model config --##
@@ -19,7 +19,7 @@ data_csv_path: data/ucf101_motion.csv
 
 ##-- Model config --##
 model: conv_3d
-batch_size: 512
+batch_size: 256
 seq_length: 40
 max_epoch: 1000
 patients: 10
