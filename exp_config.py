@@ -32,4 +32,6 @@ DATA_CSV_PATH = config['data_csv_path']
 # Model config
 MODEL = config['model']
 BATCH_SIZE = config['batch_size']
+MAX_EPOCH = config['max_epoch']
+PATIENTS = config['patients']
 

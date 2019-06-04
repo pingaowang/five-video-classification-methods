@@ -1,7 +1,7 @@
 """
 Train our RNN on extracted features or images.
 """
-from exp_config import EXP_NAME, SAVED_MODEL , MODEL, BATCH_SIZE
+from exp_config import EXP_NAME, SAVED_MODEL , MODEL, BATCH_SIZE, MAX_EPOCH, PATIENTS
 from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger
 from models import ResearchModels
 from data import DataSet
@@ -35,7 +35,7 @@ def train(data_type, seq_length, model, saved_model=None,
     csv_logger = CSVLogger(log_path)
 
     # Helper: Stop when we stop learning.
-    early_stopper = EarlyStopping(patience=5)
+    early_stopper = EarlyStopping(patience=PATIENTS)
 
     # Get the data and process it.
     if image_shape is None:
@@ -113,7 +113,7 @@ def main():
 
     train(data_type, seq_length, model, saved_model=saved_model,
           class_limit=class_limit, image_shape=image_shape,
-          load_to_memory=load_to_memory, batch_size=batch_size, nb_epoch=nb_epoch)
+          load_to_memory=load_to_memory, batch_size=batch_size, nb_epoch=MAX_EPOCH)
 
 if __name__ == '__main__':
     main()
