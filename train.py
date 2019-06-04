@@ -17,7 +17,7 @@ def train(data_type, seq_length, model, saved_model=None,
     checkpoint_path = os.path.join('data', 'checkpoints',
                                    EXP_NAME + '-' + model + '-' + data_type + \
                                    '.{epoch:03d}-{val_loss:.3f}.hdf5')
-    assert os.path.isfile(checkpoint_path) == False, "Checkpoint file alreadh exists."
+    assert not os.path.isfile(checkpoint_path) , "Checkpoint file already exists."
     checkpointer = ModelCheckpoint(
         filepath=checkpoint_path,
         verbose=1,
