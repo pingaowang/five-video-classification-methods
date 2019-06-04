@@ -11,7 +11,7 @@ import operator
 import threading
 from processor import process_image
 from keras.utils import to_categorical
-from main_config import DATA_FILE
+from exp_config import DATA_CSV_PATH
 
 
 class threadsafe_iterator:
@@ -59,7 +59,7 @@ class DataSet():
     @staticmethod
     def get_data():
         """Load our data from file."""
-        with open(os.path.join('data', DATA_FILE ), 'r') as fin:
+        with open(DATA_CSV_PATH, 'r') as fin:
             reader = csv.reader(fin)
             data = list(reader)
 

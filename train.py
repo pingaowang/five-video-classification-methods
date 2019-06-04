@@ -1,20 +1,25 @@
 """
 Train our RNN on extracted features or images.
 """
+from exp_config import EXP_NAME, SAVED_MODEL , MODEL, BATCH_SIZE
 from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger
 from models import ResearchModels
 from data import DataSet
 import time
 import os.path
-from main_config import MODEL, BATCH_SIZE, EXP_NAME, SAVED_MODEL
+
 
 def train(data_type, seq_length, model, saved_model=None,
           class_limit=None, image_shape=None,
           load_to_memory=False, batch_size=32, nb_epoch=100):
+
     # Helper: Save the model.
+    checkpoint_path = os.path.join('data', 'checkpoints',
+                                   EXP_NAME + '-' + model + '-' + data_type + \
+                                   '.{epoch:03d}-{val_loss:.3f}.hdf5')
+    assert os.path.isfile(checkpoint_path) == False, "Checkpoint file alreadh exists."
     checkpointer = ModelCheckpoint(
-        filepath=os.path.join('data', 'checkpoints', EXP_NAME + '-' + model + '-' + data_type + \
-            '.{epoch:03d}-{val_loss:.3f}.hdf5'),
+        filepath=checkpoint_path,
         verbose=1,
         save_best_only=True)
 
@@ -23,8 +28,11 @@ def train(data_type, seq_length, model, saved_model=None,
 
     # Helper: Save results.
     timestamp = time.time()
-    csv_logger = CSVLogger(os.path.join('data', 'logs', EXP_NAME + '-' + 'training-' + \
-        str(timestamp) + '.log'))
+    log_path = os.path.join('data',
+                            'logs',
+                            EXP_NAME + '-' + 'training-' + str(timestamp) + '.log')
+    assert os.path.isfile(log_path) == False, "the log file already exists."
+    csv_logger = CSVLogger(log_path)
 
     # Helper: Stop when we stop learning.
     early_stopper = EarlyStopping(patience=5)
