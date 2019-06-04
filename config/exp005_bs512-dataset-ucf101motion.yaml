@@ -1,0 +1,26 @@
+##-- Experiment info config --##
+# experiment name. Keep it unique.
+exp_name: exp005_bs512-dataset-ucf101motion
+
+
+##-- Load saved model config --##
+# if this exp need to load a saved model: 1
+# if this exp doesn't need to load a saved model: 0
+is_using_saved_model: 0
+# Path of saved model. Should be a '.hdf5' file.
+saved_model_path: data/checkpoints/-.hdf5
+
+
+##-- Dataset config --##
+# the path of the index csv file of the used data (like UCF101's csv file).
+# The original file is : 'data_file.csv'
+data_csv_path: data/ucf101_motion.csv
+
+
+##-- Model config --##
+model: conv_3d
+batch_size: 512
+seq_length: 40
+max_epoch: 1000
+patients: 10
+
