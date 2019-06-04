@@ -6,32 +6,34 @@ from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogg
 from models import ResearchModels
 from data import DataSet
 import time
+import datetime
 import os.path
 
 
 def train(data_type, seq_length, model, saved_model=None,
           class_limit=None, image_shape=None,
           load_to_memory=False, batch_size=32, nb_epoch=100):
+    # str of time
+    timestamp = time.time()
+    current_datetime = datetime.datetime.now()
+    str_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Helper: Save the model.
     checkpoint_path = os.path.join('data', 'checkpoints',
                                    EXP_NAME + '-' + model + '-' + data_type + \
-                                   '.{epoch:03d}-{val_loss:.3f}.hdf5')
-    assert not os.path.isfile(checkpoint_path) , "Checkpoint file already exists."
+                                   '.{epoch:03d}-{val_loss:.3f}' + '-' + str_datetime + '.hdf5')
     checkpointer = ModelCheckpoint(
         filepath=checkpoint_path,
         verbose=1,
         save_best_only=True)
 
     # Helper: TensorBoard
-    tb = TensorBoard(log_dir=os.path.join('data', 'logs', EXP_NAME))
+    tb = TensorBoard(log_dir=os.path.join('data', 'logs', EXP_NAME + str_datetime))
 
     # Helper: Save results.
-    timestamp = time.time()
     log_path = os.path.join('data',
                             'logs',
-                            EXP_NAME + '-' + 'training-' + str(timestamp) + '.log')
-    assert os.path.isfile(log_path) == False, "the log file already exists."
+                            EXP_NAME + '-' + 'training-' + str_datetime + '.log')
     csv_logger = CSVLogger(log_path)
 
     # Helper: Stop when we stop learning.
