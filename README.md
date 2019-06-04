@@ -1,3 +1,11 @@
+# Run a single experiment
+For example: \
+python train.py exp001_testing_code_1_ucf101mini
+
+# Run a group of experiments
+For example: \
+bash exp_group/group000_temple.sh 
+
 # Five video classification methods
 
 The five video classification methods:

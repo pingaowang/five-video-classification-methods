@@ -1,6 +1,6 @@
 ##-- Experiment info config --##
 # experiment name. Keep it unique.
-exp_name: exp000_debug
+exp_name: exp001_testing_code_ucf101
 
 
 ##-- Load saved model config --##
@@ -20,5 +20,6 @@ data_csv_path: data/data_file_mini.csv
 ##-- Model config --##
 model: conv_3d
 batch_size: 2
-
+max_epoch: 3
+patients: 5
 
