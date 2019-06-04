@@ -1,11 +1,10 @@
 """
 Train our RNN on extracted features or images.
 """
-from exp_config import EXP_NAME, SAVED_MODEL , MODEL, BATCH_SIZE, SEQ_LENGTH, MAX_EPOCH, PATIENTS
+from exp_config import EXP_NAME, SAVED_MODEL, MODEL, BATCH_SIZE, SEQ_LENGTH, MAX_EPOCH, PATIENTS
 from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger
 from models import ResearchModels
 from data import DataSet
-import time
 import datetime
 import os.path
 
@@ -14,7 +13,6 @@ def train(data_type, seq_length, model, saved_model=None,
           class_limit=None, image_shape=None,
           load_to_memory=False, batch_size=32, nb_epoch=100):
     # str of time
-    timestamp = time.time()
     current_datetime = datetime.datetime.now()
     str_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 

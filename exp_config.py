@@ -22,7 +22,7 @@ EXP_NAME = config['exp_name']
 IS_USING_SAVED_MODEL = config['is_using_saved_model']
 
 if IS_USING_SAVED_MODEL:
-    SAVED_MODEL = config['saved_model']
+    SAVED_MODEL = config['saved_model_path']
 else:
     SAVED_MODEL = None
 
