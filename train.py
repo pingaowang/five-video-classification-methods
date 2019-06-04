@@ -1,7 +1,7 @@
 """
 Train our RNN on extracted features or images.
 """
-from exp_config import EXP_NAME, SAVED_MODEL , MODEL, BATCH_SIZE, MAX_EPOCH, PATIENTS
+from exp_config import EXP_NAME, SAVED_MODEL , MODEL, BATCH_SIZE, SEQ_LENGTH, MAX_EPOCH, PATIENTS
 from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger
 from models import ResearchModels
 from data import DataSet
@@ -96,7 +96,7 @@ def main():
     model = MODEL
     saved_model = SAVED_MODEL  # None or weights file
     class_limit = None  # int, can be 1-101 or None
-    seq_length = 40
+    seq_length = SEQ_LENGTH
     load_to_memory = False  # pre-load the sequences into memory
     batch_size = BATCH_SIZE # The original batch_size = 32
 

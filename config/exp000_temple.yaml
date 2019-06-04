@@ -20,6 +20,7 @@ data_csv_path: data/data_file_mini.csv
 ##-- Model config --##
 model: conv_3d
 batch_size: 2
+seq_length: 40
 max_epoch: 3
 patients: 5
 
