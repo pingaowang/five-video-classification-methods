@@ -97,7 +97,7 @@ def main():
     saved_model = SAVED_MODEL  # None or weights file
     class_limit = None  # int, can be 1-101 or None
     seq_length = SEQ_LENGTH
-    load_to_memory = False  # pre-load the sequences into memory
+    load_to_memory = True  # pre-load the sequences into memory
     batch_size = BATCH_SIZE # The original batch_size = 32
 
     # Chose images or features and image shape based on network.
