@@ -6,7 +6,7 @@ from yaml_util import read_list_yaml
 import csv
 import os.path
 
-## config
+## exp_run_config
 # input
 original_csv_path = '../data/data_file.csv'
 classes_yaml_path = 'ucf_101_motion_classes.yaml'

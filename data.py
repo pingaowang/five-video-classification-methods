@@ -11,7 +11,7 @@ import operator
 import threading
 from processor import process_image
 from keras.utils import to_categorical
-from exp_config import DATA_CSV_PATH
+from exp_config_reader import DATA_CSV_PATH
 
 
 class threadsafe_iterator:

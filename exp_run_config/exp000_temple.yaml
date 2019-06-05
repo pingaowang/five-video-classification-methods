@@ -1,9 +1,9 @@
-##-- Experiment info config --##
+##-- Experiment info exp_run_config --##
 # experiment name. Keep it unique.
-exp_name: exp001_testing_code_1_ucf101
+exp_name: exp000_debug
 
 
-##-- Load saved model config --##
+##-- Load saved model exp_run_config --##
 # if this exp need to load a saved model: 1
 # if this exp doesn't need to load a saved model: 0
 is_using_saved_model: 0
@@ -11,16 +11,17 @@ is_using_saved_model: 0
 saved_model_path: data/checkpoints/a_saved_model.hdf5
 
 
-##-- Dataset config --##
+##-- Dataset exp_run_config --##
 # the path of the index csv file of the used data (like UCF101's csv file).
 # The original file is : 'data_file.csv'
 data_csv_path: data/data_file_mini.csv
 
 
-##-- Model config --##
+##-- Model exp_run_config --##
 model: conv_3d
 batch_size: 2
 seq_length: 40
-max_epoch: 2
+max_epoch: 3
 patients: 5
+
 

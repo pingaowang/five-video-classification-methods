@@ -1,7 +1,7 @@
 """
 Train our RNN on extracted features or images.
 """
-from exp_config import EXP_NAME, SAVED_MODEL, MODEL, BATCH_SIZE, SEQ_LENGTH, MAX_EPOCH, PATIENTS
+from exp_config_reader import EXP_NAME, SAVED_MODEL, MODEL, BATCH_SIZE, SEQ_LENGTH, MAX_EPOCH, PATIENTS
 from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger
 from models import ResearchModels
 from data import DataSet
