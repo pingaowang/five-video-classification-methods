@@ -19,7 +19,7 @@ data_csv_path: data/data_file.csv
 
 ##-- Model exp_run_config --##
 model: c3d
-batch_size: 64
+batch_size: 32
 seq_length: 40
 max_epoch: 1000
 patients: 1000
