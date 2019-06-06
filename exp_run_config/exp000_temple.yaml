@@ -15,6 +15,7 @@ saved_model_path: data/checkpoints/a_saved_model.hdf5
 # the path of the index csv file of the used data (like UCF101's csv file).
 # The original file is : 'data_file.csv'
 data_csv_path: data/data_file_mini.csv
+load_to_memory: 0
 
 
 ##-- Model exp_run_config --##
@@ -23,5 +24,21 @@ batch_size: 2
 seq_length: 40
 max_epoch: 3
 patients: 5
+
+# loss function: choose one of following
+#   1) mean_squared_error
+#   2) mean_absolute_error
+#   3) categorical_crossentropy
+loss_function: categorical_crossentropy
+
+# optimizer: choose one the following
+#   1) SGD
+#   2) Adam
+#   3) RMSProp
+optimizer: SGD
+init_learning_rate: 0.003
+momentum: 0.9
+decay: 0.55
+
 
 

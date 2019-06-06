@@ -1,7 +1,8 @@
 """
 Train our RNN on extracted features or images.
 """
-from exp_config_reader import EXP_NAME, SAVED_MODEL, MODEL, BATCH_SIZE, SEQ_LENGTH, MAX_EPOCH, PATIENTS
+from exp_config_reader import *
+import keras
 from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger
 from models import ResearchModels
 from data import DataSet
@@ -66,6 +67,16 @@ def train(data_type, seq_length, model, saved_model=None,
     # Get the model.
     rm = ResearchModels(len(data.classes), model, seq_length, saved_model)
 
+    # Get the optimizer:
+    if OPTIMIZER == 'SGD':
+        optimizer = keras.optimizers.SGD(lr=INIT_LEARNING_RATE, momentum=MOMENTUM, decay=DECAY, nesterov=False)
+    elif OPTIMIZER == 'RMSProp':
+        optimizer = keras.optimizers.RMSprop(lr=INIT_LEARNING_RATE, epsilon=None, decay=DECAY)
+    elif OPTIMIZER == 'Adam':
+        optimizer = keras.optimizers.Adam(lr=INIT_LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=None, decay=DECAY, amsgrad=False)
+
+    rm.model.compile(loss=LOSS_FUNCTION, optimizer=optimizer)
+
     # Fit!
     if load_to_memory:
         # Use standard fit.
@@ -97,7 +108,7 @@ def main():
     saved_model = SAVED_MODEL  # None or weights file
     class_limit = None  # int, can be 1-101 or None
     seq_length = SEQ_LENGTH
-    load_to_memory = True  # pre-load the sequences into memory
+    load_to_memory = bool(LOAD_TO_MEMORY)  # pre-load the sequences into memory
     batch_size = BATCH_SIZE # The original batch_size = 32
 
     # Chose images or features and image shape based on network.

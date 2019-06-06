@@ -28,6 +28,7 @@ else:
 
 # Dataset exp_run_config:
 DATA_CSV_PATH = config['data_csv_path']
+LOAD_TO_MEMORY = config['load_to_memory']
 
 # Model exp_run_config
 MODEL = config['model']
@@ -35,5 +36,10 @@ BATCH_SIZE = config['batch_size']
 SEQ_LENGTH = config['seq_length']
 MAX_EPOCH = config['max_epoch']
 PATIENTS = config['patients']
-
+LOSS_FUNCTION = config['loss_function']
+OPTIMIZER = config['optimizer']
+# aug for optimizers:
+INIT_LEARNING_RATE = config['init_learning_rate']
+MOMENTUM = config['momentum']
+DECAY = config['decay']
 
