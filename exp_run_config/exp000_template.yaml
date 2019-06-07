@@ -23,7 +23,7 @@ model: conv_3d
 batch_size: 2
 seq_length: 40
 max_epoch: 20
-patients: 5
+patients: 20
 
 # loss function: choose one of strings below
 #   1) mean_squared_error
