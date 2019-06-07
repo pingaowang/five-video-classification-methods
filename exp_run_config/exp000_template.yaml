@@ -1,6 +1,6 @@
 ##-- Experiment info exp_run_config --##
 # experiment name. Keep it unique.
-exp_name: exp000_debug
+exp_name: exp000_template
 
 
 ##-- Load saved model exp_run_config --##
@@ -15,14 +15,14 @@ saved_model_path: data/checkpoints/a_saved_model.hdf5
 # the path of the index csv file of the used data (like UCF101's csv file).
 # The original file is : 'data_file.csv'
 data_csv_path: data/data_file_mini.csv
-load_to_memory: 0
+load_to_memory: 1
 
 
 ##-- Model exp_run_config --##
 model: conv_3d
 batch_size: 2
 seq_length: 40
-max_epoch: 3
+max_epoch: 20
 patients: 5
 
 # loss function: choose one of strings below
@@ -38,7 +38,8 @@ loss_function: categorical_crossentropy
 optimizer: SGD
 init_learning_rate: 0.003
 momentum: 0.9
-decay: 0.55
+lr_drop_ratio: 0.1
+epochs_drop: 4
 
 
 

@@ -3,11 +3,22 @@ Train our RNN on extracted features or images.
 """
 from exp_config_reader import *
 import keras
-from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger
+from keras import backend as K
+from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger, LearningRateScheduler
 from models import ResearchModels
 from data import DataSet
 import datetime
 import os.path
+import math
+
+
+class LRTensorBoard(TensorBoard):
+    def __init__(self, log_dir): # add other arguments to __init__ if you need
+        super().__init__(log_dir=log_dir)
+
+    def on_epoch_end(self, epoch, logs=None):
+        logs.update({'lr': K.get_value(self.model.optimizer.lr)})
+        super().on_epoch_end(epoch, logs)
 
 
 def train(data_type, seq_length, model, saved_model=None,
@@ -26,8 +37,18 @@ def train(data_type, seq_length, model, saved_model=None,
         verbose=1,
         save_best_only=True)
 
+    # Helper: Schedule learning rate decay
+    def step_decay(epoch):
+        initial_lr = INIT_LEARNING_RATE
+        lr_drop_ratio = LR_DROP_RATIO
+        epochs_drop = EPOCHS_DROP
+        lr = initial_lr * math.pow(lr_drop_ratio, math.floor((1+epoch)/epochs_drop))
+        return lr
+    learning_rate = LearningRateScheduler(step_decay)
+
     # Helper: TensorBoard
-    tb = TensorBoard(log_dir=os.path.join('data', 'logs', EXP_NAME + str_datetime))
+    # tb = TensorBoard(log_dir=os.path.join('data', 'logs', EXP_NAME + str_datetime))
+    tb = LRTensorBoard(log_dir=os.path.join('data', 'logs', EXP_NAME + str_datetime))
 
     # Helper: Save results.
     log_path = os.path.join('data',
@@ -69,13 +90,13 @@ def train(data_type, seq_length, model, saved_model=None,
 
     # Get the optimizer:
     if OPTIMIZER == 'SGD':
-        optimizer = keras.optimizers.SGD(lr=INIT_LEARNING_RATE, momentum=MOMENTUM, decay=DECAY, nesterov=False)
+        optimizer = keras.optimizers.SGD(lr=INIT_LEARNING_RATE, momentum=MOMENTUM, nesterov=False)
     elif OPTIMIZER == 'RMSProp':
-        optimizer = keras.optimizers.RMSprop(lr=INIT_LEARNING_RATE, epsilon=None, decay=DECAY)
+        optimizer = keras.optimizers.RMSprop(lr=INIT_LEARNING_RATE, epsilon=None)
     elif OPTIMIZER == 'Adam':
-        optimizer = keras.optimizers.Adam(lr=INIT_LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=None, decay=DECAY, amsgrad=False)
+        optimizer = keras.optimizers.Adam(lr=INIT_LEARNING_RATE, beta_1=0.9, beta_2=0.999, epsilon=None, amsgrad=False)
 
-    rm.model.compile(loss=LOSS_FUNCTION, optimizer=optimizer)
+    rm.model.compile(loss=LOSS_FUNCTION, optimizer=optimizer, metrics=['accuracy'])
 
     # Fit!
     if load_to_memory:
@@ -86,7 +107,7 @@ def train(data_type, seq_length, model, saved_model=None,
             batch_size=batch_size,
             validation_data=(X_test, y_test),
             verbose=1,
-            callbacks=[tb, early_stopper, csv_logger],
+            callbacks=[tb, early_stopper, csv_logger, learning_rate],
             epochs=nb_epoch)
     else:
         # Use fit generator.
@@ -95,7 +116,7 @@ def train(data_type, seq_length, model, saved_model=None,
             steps_per_epoch=steps_per_epoch,
             epochs=nb_epoch,
             verbose=1,
-            callbacks=[tb, early_stopper, csv_logger, checkpointer],
+            callbacks=[tb, early_stopper, csv_logger, checkpointer, learning_rate],
             validation_data=val_generator,
             validation_steps=40,
             workers=4)

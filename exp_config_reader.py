@@ -41,5 +41,5 @@ OPTIMIZER = config['optimizer']
 # aug for optimizers:
 INIT_LEARNING_RATE = config['init_learning_rate']
 MOMENTUM = config['momentum']
-DECAY = config['decay']
-
+LR_DROP_RATIO = config['lr_drop_ratio']
+EPOCHS_DROP = config['epochs_drop']
