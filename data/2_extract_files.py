@@ -55,7 +55,7 @@ def extract_files():
 
                 print("Generated %d frames for %s" % (nb_frames, filename_no_ext))
 
-    with open('data_file.csv', 'w') as fout:
+    with open('ucf101.csv', 'w') as fout:
         writer = csv.writer(fout)
         writer.writerows(data_file)
 

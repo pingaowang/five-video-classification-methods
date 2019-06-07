@@ -7,7 +7,7 @@ import os.path
 
 ## exp_run_config
 # input
-original_csv_path = '../data/data_file.csv'
+original_csv_path = '../data/ucf101.csv'
 
 csv.register_dialect('ucf101_dialect', delimiter=',', skipinitialspace=True)
 list_classes_ucf101 = []

@@ -8,7 +8,7 @@ import os.path
 
 ## exp_run_config
 # input
-original_csv_path = '../data/data_file.csv'
+original_csv_path = '../data/ucf101.csv'
 classes_yaml_path = 'ucf_101_motion_classes.yaml'
 key_name = 'classes'
 # output

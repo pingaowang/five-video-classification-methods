@@ -13,8 +13,8 @@ saved_model_path: data/checkpoints/-.hdf5
 
 ##-- Dataset exp_run_config --##
 # the path of the index csv file of the used data (like UCF101's csv file).
-# The original file is : 'data_file.csv'
-data_csv_path: data/data_file.csv
+# The original file is : 'ucf101.csv'
+data_csv_path: data/ucf101.csv
 
 
 ##-- Model exp_run_config --##
