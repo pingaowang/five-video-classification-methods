@@ -1,6 +1,6 @@
 ##-- Experiment info exp_run_config --##
 # experiment name. Keep it unique.
-exp_name: exp007_basic-ucf101-motion
+exp_name: exp007_1_basic-ucf101-motion
 
 
 ##-- Load saved model exp_run_config --##
@@ -14,15 +14,16 @@ saved_model_path: data/checkpoints/a_saved_model.hdf5
 ##-- Dataset exp_run_config --##
 # the path of the index csv file of the used data (like UCF101's csv file).
 # The original file is : 'ucf101.csv'
-data_csv_path: data/ucf101_mini.csv
+data_csv_path: data/ucf101_motion.csv
+# if load to memory, need more memory and can reduce IO time.
 load_to_memory: 1
 
 
 ##-- Model exp_run_config --##
-model: conv_3d
-batch_size: 2
+model: c3d
+batch_size: 16
 seq_length: 40
-max_epoch: 20
+max_epoch: 1000
 patients: 20
 
 # loss function: choose one of strings below
