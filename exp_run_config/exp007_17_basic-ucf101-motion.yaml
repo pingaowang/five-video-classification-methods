@@ -36,11 +36,11 @@ loss_function: categorical_crossentropy
 #   1) SGD
 #   2) Adam
 #   3) RMSProp
-optimizer: SGD
-init_learning_rate: 0.01
+optimizer: RMSProp
+init_learning_rate: 0.001
 momentum: 0.9
-lr_drop_ratio: 0.1
-epochs_drop: 4
+lr_drop_ratio: 0.5
+epochs_drop: 10
 
 
 

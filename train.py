@@ -43,6 +43,7 @@ def train(data_type, seq_length, model, saved_model=None,
         lr_drop_ratio = LR_DROP_RATIO
         epochs_drop = EPOCHS_DROP
         lr = initial_lr * math.pow(lr_drop_ratio, math.floor((1+epoch)/epochs_drop))
+        print(lr)
         return lr
     learning_rate = LearningRateScheduler(step_decay)
 
