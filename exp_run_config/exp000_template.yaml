@@ -25,13 +25,13 @@ seq_length: 40
 max_epoch: 3
 patients: 5
 
-# loss function: choose one of following
+# loss function: choose one of strings below
 #   1) mean_squared_error
 #   2) mean_absolute_error
 #   3) categorical_crossentropy
 loss_function: categorical_crossentropy
 
-# optimizer: choose one the following
+# optimizer: choose one of strings below
 #   1) SGD
 #   2) Adam
 #   3) RMSProp
