@@ -1,0 +1,46 @@
+##-- Experiment info exp_run_config --##
+# experiment name. Keep it unique.
+exp_name: exp008_basic-ucf101
+
+
+##-- Load saved model exp_run_config --##
+# if this exp need to load a saved model: 1
+# if this exp doesn't need to load a saved model: 0
+is_using_saved_model: 0
+# Path of saved model. Should be a '.hdf5' file.
+saved_model_path: data/checkpoints/a_saved_model.hdf5
+
+
+##-- Dataset exp_run_config --##
+# the path of the index csv file of the used data (like UCF101's csv file).
+# The original file is : 'ucf101.csv'
+data_csv_path: data/ucf101_motion.csv
+# if load to memory, need more memory and can reduce IO time.
+load_to_memory: 1
+
+
+##-- Model exp_run_config --##
+model: c3d
+batch_size: 16
+seq_length: 40
+max_epoch: 1000
+patients: 40
+
+# loss function: choose one of strings below
+#   1) mean_squared_error
+#   2) mean_absolute_error
+#   3) categorical_crossentropy
+loss_function: categorical_crossentropy
+
+# optimizer: choose one of strings below
+#   1) SGD
+#   2) Adam
+#   3) RMSProp
+optimizer: SGD
+init_learning_rate: 0.003
+momentum: 0.9
+lr_drop_ratio: 0.5
+epochs_drop: 20
+
+
+
