@@ -24,7 +24,7 @@ model: c3d
 batch_size: 16
 seq_length: 40
 max_epoch: 1000
-patients: 40
+patients: 100
 
 # loss function: choose one of strings below
 #   1) mean_squared_error
