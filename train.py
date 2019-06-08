@@ -23,7 +23,13 @@ class LRTensorBoard(TensorBoard):
 
 def train(data_type, seq_length, model, saved_model=None,
           class_limit=None, image_shape=None,
-          load_to_memory=False, batch_size=32, nb_epoch=100):
+          load_to_memory=False, batch_size=32, nb_epoch=100,
+          dens_kernel_reg_l1=0.1, dens_kernel_reg_l2=0.1,
+          dens_activity_reg_l1=0.1, dens_activity_reg_l2=0.1,
+          conv3d_w_reg_l1=0.1, conv3d_w_reg_l2=0.1,
+          conv3d_b_reg_l1=0.1, conv3d_b_reg_l2=0.1,
+          conv3d_activity_reg_l1=0.1, conv3d_activity_reg_l2=0.1
+          ):
     # str of time
     current_datetime = datetime.datetime.now()
     str_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
@@ -87,7 +93,13 @@ def train(data_type, seq_length, model, saved_model=None,
         val_generator = data.frame_generator(batch_size, 'test', data_type)
 
     # Get the model.
-    rm = ResearchModels(len(data.classes), model, seq_length, saved_model)
+    rm = ResearchModels(len(data.classes), model, seq_length, saved_model,
+                        dens_kernel_reg_l1=dens_kernel_reg_l1, dens_kernel_reg_l2=dens_kernel_reg_l2,
+                        dens_activity_reg_l1=dens_activity_reg_l1, dens_activity_reg_l2=dens_activity_reg_l2,
+                        conv3d_w_reg_l1=conv3d_w_reg_l1, conv3d_w_reg_l2=conv3d_w_reg_l2,
+                        conv3d_b_reg_l1=conv3d_b_reg_l1, conv3d_b_reg_l2=conv3d_b_reg_l2,
+                        conv3d_activity_reg_l1=conv3d_activity_reg_l1, conv3d_activity_reg_l2=conv3d_activity_reg_l2
+                        )
 
     # Get the optimizer:
     if OPTIMIZER == 'SGD':
@@ -145,7 +157,13 @@ def main():
 
     train(data_type, seq_length, model, saved_model=saved_model,
           class_limit=class_limit, image_shape=image_shape,
-          load_to_memory=load_to_memory, batch_size=batch_size, nb_epoch=MAX_EPOCH)
+          load_to_memory=load_to_memory, batch_size=batch_size, nb_epoch=MAX_EPOCH,
+          dens_kernel_reg_l1=DENS_KERNEL_REG_L1, dens_kernel_reg_l2=DENS_KERNEL_REG_L2,
+          dens_activity_reg_l1=DENS_ACTIVITY_REG_L1, dens_activity_reg_l2=DENS_ACTIVITY_REG_L2,
+          conv3d_w_reg_l1=CONV3D_W_REG_L1, conv3d_w_reg_l2=CONV3D_W_REG_L2,
+          conv3d_b_reg_l1=CONV3D_B_REG_L1, conv3d_b_reg_l2=CONV3D_B_REG_L2,
+          conv3d_activity_reg_l1=CONV3D_ACTIVITY_REG_L1, conv3d_activity_reg_l2=CONV3D_ACTIVITY_REG_L2
+          )
 
 if __name__ == '__main__':
     main()

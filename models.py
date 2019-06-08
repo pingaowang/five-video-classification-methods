@@ -8,12 +8,18 @@ from keras.optimizers import Adam, RMSprop
 from keras.layers.wrappers import TimeDistributed
 from keras.layers.convolutional import (Conv2D, MaxPooling3D, Conv3D,
     MaxPooling2D)
+from keras.regularizers import l1_l2
 from collections import deque
 import sys
 
 class ResearchModels():
     def __init__(self, nb_classes, model, seq_length,
-                 saved_model=None, features_length=2048):
+                 saved_model=None, features_length=2048,
+                 dens_kernel_reg_l1=None, dens_kernel_reg_l2=None,
+                 dens_activity_reg_l1=None, dens_activity_reg_l2=None,
+                 conv3d_w_reg_l1=None, conv3d_w_reg_l2=None,
+                 conv3d_b_reg_l1=None, conv3d_b_reg_l2=None,
+                 conv3d_activity_reg_l1=None, conv3d_activity_reg_l2=None):
         """
         `model` = one of:
             lstm
@@ -32,6 +38,23 @@ class ResearchModels():
         self.saved_model = saved_model
         self.nb_classes = nb_classes
         self.feature_queue = deque()
+
+        # self.dens_kernel_reg_l1 = dens_kernel_reg_l1
+        # self.dens_kernel_reg_l2 = dens_kernel_reg_l2
+        # self.dens_activity_reg_l1 = dens_activity_reg_l1
+        # self.dens_activity_reg_l2 = dens_activity_reg_l2
+        self.dens_kernel_reg = l1_l2(l1 = dens_kernel_reg_l1, l2 = dens_kernel_reg_l2)
+        self.dens_activity_reg = l1_l2(l1=dens_activity_reg_l1, l2=dens_activity_reg_l2)
+
+        # self.conv3d_w_reg_l1 = conv3d_w_reg_l1
+        # self.conv3d_w_reg_l2 = conv3d_w_reg_l2
+        # self.conv3d_b_reg_l1 = conv3d_b_reg_l1
+        # self.conv3d_b_reg_l2 = conv3d_b_reg_l2
+        # self.conv3d_activity_reg_l1 = conv3d_activity_reg_l1
+        # self.conv3d_activity_reg_l2 = conv3d_activity_reg_l2
+        self.conv3d_w_reg = l1_l2(l1=conv3d_w_reg_l1, l2=conv3d_w_reg_l2)
+        self.conv3d_b_reg = l1_l2(l1=conv3d_b_reg_l1, l2=conv3d_b_reg_l2)
+        self.conv3d_activity_reg = l1_l2(l1=conv3d_activity_reg_l1, l2=conv3d_activity_reg_l2)
 
         # Set the metrics. Only use top k if there's a need.
         metrics = ['accuracy']
@@ -160,9 +183,7 @@ class ResearchModels():
         """
         # Model.
         model = Sequential()
-        model.add(Conv3D(
-            32, (3,3,3), activation='relu', input_shape=self.input_shape
-        ))
+        model.add(Conv3D(32, (3,3,3), activation='relu', input_shape=self.input_shape))
         model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2)))
         model.add(Conv3D(64, (3,3,3), activation='relu'))
         model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2)))
@@ -195,50 +216,83 @@ class ResearchModels():
         model.add(Conv3D(64, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv1',
                          subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg,
                          input_shape=self.input_shape))
         model.add(MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2),
                                border_mode='valid', name='pool1'))
         # 2nd layer group
         model.add(Conv3D(128, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv2',
-                         subsample=(1, 1, 1)))
+                         subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg
+                         ))
         model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
                                border_mode='valid', name='pool2'))
         # 3rd layer group
         model.add(Conv3D(256, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv3a',
-                         subsample=(1, 1, 1)))
+                         subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg
+                         ))
         model.add(Conv3D(256, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv3b',
-                         subsample=(1, 1, 1)))
+                         subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg
+                         ))
         model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
                                border_mode='valid', name='pool3'))
         # 4th layer group
         model.add(Conv3D(512, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv4a',
-                         subsample=(1, 1, 1)))
+                         subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg
+                         ))
         model.add(Conv3D(512, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv4b',
-                         subsample=(1, 1, 1)))
+                         subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg
+                         ))
         model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
                                border_mode='valid', name='pool4'))
 
         # 5th layer group
         model.add(Conv3D(512, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv5a',
-                         subsample=(1, 1, 1)))
+                         subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg
+                         ))
         model.add(Conv3D(512, 3, 3, 3, activation='relu',
                          border_mode='same', name='conv5b',
-                         subsample=(1, 1, 1)))
+                         subsample=(1, 1, 1),
+                         W_regularizer=self.conv3d_w_reg,
+                         b_regularizer=self.conv3d_b_reg,
+                         activity_regularizer=self.conv3d_activity_reg
+                         ))
         model.add(ZeroPadding3D(padding=(0, 1, 1)))
         model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2),
                                border_mode='valid', name='pool5'))
         model.add(Flatten())
 
         # FC layers group
-        model.add(Dense(4096, activation='relu', name='fc6'))
+        model.add(Dense(4096, activation='relu', name='fc6',
+                        kernel_regularizer=self.dens_kernel_reg, activity_regularizer=self.dens_activity_reg))
         model.add(Dropout(0.5))
-        model.add(Dense(4096, activation='relu', name='fc7'))
+        model.add(Dense(4096, activation='relu', name='fc7',
+                        kernel_regularizer=self.dens_kernel_reg, activity_regularizer=self.dens_activity_reg))
         model.add(Dropout(0.5))
         model.add(Dense(self.nb_classes, activation='softmax'))
 
