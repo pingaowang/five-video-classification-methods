@@ -1,6 +1,6 @@
 ##-- Experiment info exp_run_config --##
 # experiment name. Keep it unique.
-exp_name: exp008_basic-ucf101
+exp_name: exp008_basic-ucf101-motion
 
 
 ##-- Load saved model exp_run_config --##
